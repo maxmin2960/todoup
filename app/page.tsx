@@ -16,7 +16,6 @@ export default function Home() {
   const [input, setInput] = useState("");
   const [filter, setFilter] = useState<"all" | "active" | "done">("all");
   const [bgImage, setBgImage] = useState<string>(DEFAULT_BG);
-  const [showBgMenu, setShowBgMenu] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -38,7 +37,6 @@ export default function Home() {
       const result = ev.target?.result as string;
       setBgImage(result);
       localStorage.setItem("bgImage", result);
-      setShowBgMenu(false);
     };
     reader.readAsDataURL(file);
     e.target.value = "";
@@ -47,7 +45,6 @@ export default function Home() {
   const resetBg = () => {
     setBgImage(DEFAULT_BG);
     localStorage.removeItem("bgImage");
-    setShowBgMenu(false);
   };
 
   const addTask = () => {
@@ -100,63 +97,43 @@ export default function Home() {
       {/* Header */}
       <div className="w-full max-w-lg mb-10">
         <div className="backdrop-blur-md bg-white/60 rounded-2xl px-6 py-5 shadow-lg border border-white/70">
-          <div className="flex items-start justify-between">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight text-amber-900">
-                🐾 やること
-              </h1>
-              <p className="text-sm text-amber-700/70 mt-1">
-                {activeCount > 0
-                  ? `${activeCount}件のタスクが残っています`
-                  : doneCount > 0
-                  ? "すべて完了！お疲れさまでした 🎉"
-                  : "タスクを追加してはじめましょう"}
-              </p>
-            </div>
+          <h1 className="text-3xl font-bold tracking-tight text-amber-900">
+            🐾 やること
+          </h1>
+          <p className="text-sm text-amber-700/70 mt-1">
+            {activeCount > 0
+              ? `${activeCount}件のタスクが残っています`
+              : doneCount > 0
+              ? "すべて完了！お疲れさまでした 🎉"
+              : "タスクを追加してはじめましょう"}
+          </p>
 
-            {/* Background settings button */}
-            <div className="relative">
+          {/* Background controls */}
+          <div className="flex items-center gap-2 mt-4 pt-4 border-t border-amber-100">
+            <span className="text-xs text-amber-700/60">背景画像</span>
+            <label className="cursor-pointer inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-800 text-xs font-medium transition border border-amber-200">
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+              </svg>
+              アップロード
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleBgUpload}
+                className="hidden"
+              />
+            </label>
+            {bgImage !== DEFAULT_BG && (
               <button
-                onClick={() => setShowBgMenu((v) => !v)}
-                className="w-8 h-8 flex items-center justify-center rounded-lg text-amber-700/50 hover:text-amber-700 hover:bg-amber-50/60 transition"
-                aria-label="背景を変更"
-                title="背景を変更"
+                onClick={resetBg}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-50 hover:bg-red-50 text-stone-500 hover:text-red-500 text-xs font-medium transition border border-stone-200"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3 8.25h.008v.008H3V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                 </svg>
+                デフォルトに戻す
               </button>
-
-              {showBgMenu && (
-                <div className="absolute right-0 top-10 w-44 backdrop-blur-md bg-white/90 border border-white/80 rounded-xl shadow-lg overflow-hidden z-10">
-                  <label
-                    className="w-full px-4 py-3 text-left text-sm text-stone-700 hover:bg-amber-50 transition flex items-center gap-2 cursor-pointer"
-                  >
-                    <svg className="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                    </svg>
-                    画像をアップロード
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleBgUpload}
-                      className="hidden"
-                    />
-                  </label>
-                  {bgImage !== DEFAULT_BG && (
-                    <button
-                      onClick={resetBg}
-                      className="w-full px-4 py-3 text-left text-sm text-stone-500 hover:bg-red-50 hover:text-red-500 transition flex items-center gap-2 border-t border-stone-100"
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
-                      </svg>
-                      デフォルトに戻す
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -285,11 +262,6 @@ export default function Home() {
             完了済みをすべて削除
           </button>
         </div>
-      )}
-
-      {/* Overlay to close bg menu */}
-      {showBgMenu && (
-        <div className="fixed inset-0 z-0" onClick={() => setShowBgMenu(false)} />
       )}
     </main>
   );
