@@ -121,10 +121,10 @@ export default function Home() {
         <div className="backdrop-blur-md bg-white/60 rounded-2xl px-6 py-5 shadow-lg border border-white/70">
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-amber-900">
+              <h1 className="text-4xl font-bold tracking-tight text-amber-900">
                 🐾 やることワン！
               </h1>
-              <p className="text-sm text-amber-700/70 mt-1">
+              <p className="text-base text-amber-800 mt-1 font-medium">
                 {activeCount > 0
                   ? `あと${activeCount}個残ってるワン…`
                   : doneCount > 0
@@ -197,12 +197,12 @@ export default function Home() {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="やることを入力するワン…"
-          className="flex-1 px-4 py-3 rounded-xl backdrop-blur-md bg-white/70 border border-white/80 text-stone-800 placeholder-stone-400 shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300 transition"
+          className="flex-1 px-4 py-3 rounded-xl backdrop-blur-md bg-white/80 border border-white/80 text-stone-900 text-base placeholder-stone-400 shadow-md focus:outline-none focus:ring-2 focus:ring-amber-300 transition"
         />
         <button
           onClick={addTask}
           disabled={!input.trim()}
-          className="px-5 py-3 rounded-xl bg-amber-700/80 backdrop-blur-md text-white font-medium shadow-md hover:bg-amber-600/90 active:bg-amber-800 disabled:opacity-30 disabled:cursor-not-allowed transition"
+          className="px-5 py-3 rounded-xl bg-amber-700 backdrop-blur-md text-white text-base font-bold shadow-md hover:bg-amber-600 active:bg-amber-800 disabled:opacity-30 disabled:cursor-not-allowed transition"
         >
           追加ワン
         </button>
@@ -221,10 +221,10 @@ export default function Home() {
             <button
               key={key}
               onClick={() => setFilter(key)}
-              className={`flex-1 py-2 rounded-lg text-sm font-medium transition ${
+              className={`flex-1 py-2 rounded-lg text-base font-bold transition ${
                 filter === key
                   ? "bg-white/90 text-amber-800 shadow-sm"
-                  : "text-stone-500 hover:text-stone-700"
+                  : "text-stone-600 hover:text-stone-800"
               }`}
             >
               {label}
@@ -236,7 +236,7 @@ export default function Home() {
       {/* Task list */}
       <div className="w-full max-w-lg space-y-2">
         {filtered.length === 0 && tasks.length > 0 && (
-          <p className="text-center text-white/80 py-10 text-sm drop-shadow">
+          <p className="text-center text-white py-10 text-base font-bold drop-shadow-[0_1px_4px_rgba(0,0,0,0.6)]">
             がいとうするタスクはないワン
           </p>
         )}
@@ -246,8 +246,8 @@ export default function Home() {
             key={task.id}
             className={`group flex items-center gap-3 px-4 py-3.5 rounded-xl backdrop-blur-md border shadow-md transition ${
               task.done
-                ? "bg-white/40 border-white/50 opacity-70"
-                : "bg-white/65 border-white/75 hover:bg-white/75"
+                ? "bg-white/60 border-white/60 opacity-70"
+                : "bg-white/80 border-white/80 hover:bg-white/90"
             }`}
           >
             {/* Checkbox */}
@@ -269,8 +269,8 @@ export default function Home() {
 
             {/* Text */}
             <span
-              className={`flex-1 text-sm leading-relaxed ${
-                task.done ? "line-through text-stone-400" : "text-stone-800"
+              className={`flex-1 text-base font-medium leading-relaxed ${
+                task.done ? "line-through text-stone-400" : "text-stone-900"
               }`}
             >
               {task.text}
@@ -295,7 +295,7 @@ export default function Home() {
         <div className="w-full max-w-lg mt-6 flex justify-end">
           <button
             onClick={() => setTasks((prev) => prev.filter((t) => !t.done))}
-            className="text-xs text-white/70 hover:text-red-300 drop-shadow transition"
+            className="text-sm font-medium text-white hover:text-red-300 drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)] transition"
           >
             できたワンをぜんぶけすワン
           </button>
