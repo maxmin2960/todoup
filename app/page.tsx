@@ -246,7 +246,7 @@ export default function Home() {
             key={task.id}
             className={`group flex items-center gap-3 px-4 py-3.5 rounded-xl backdrop-blur-md border shadow-md transition ${
               task.done
-                ? "bg-white/60 border-white/60 opacity-70"
+                ? "bg-emerald-50/80 border-emerald-200/70"
                 : "bg-white/80 border-white/80 hover:bg-white/90"
             }`}
           >
@@ -270,7 +270,7 @@ export default function Home() {
             {/* Text */}
             <span
               className={`flex-1 text-base font-medium leading-relaxed ${
-                task.done ? "line-through text-stone-400" : "text-stone-900"
+                task.done ? "line-through decoration-2 text-stone-500" : "text-stone-900"
               }`}
             >
               {task.text}
