@@ -18,7 +18,6 @@ export default function Home() {
   const [bgImage, setBgImage] = useState<string>(DEFAULT_BG);
   const [showBgMenu, setShowBgMenu] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("tasks");
@@ -130,15 +129,20 @@ export default function Home() {
 
               {showBgMenu && (
                 <div className="absolute right-0 top-10 w-44 backdrop-blur-md bg-white/90 border border-white/80 rounded-xl shadow-lg overflow-hidden z-10">
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-full px-4 py-3 text-left text-sm text-stone-700 hover:bg-amber-50 transition flex items-center gap-2"
+                  <label
+                    className="w-full px-4 py-3 text-left text-sm text-stone-700 hover:bg-amber-50 transition flex items-center gap-2 cursor-pointer"
                   >
                     <svg className="w-4 h-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
                     </svg>
                     画像をアップロード
-                  </button>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleBgUpload}
+                      className="hidden"
+                    />
+                  </label>
                   {bgImage !== DEFAULT_BG && (
                     <button
                       onClick={resetBg}
@@ -156,15 +160,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      {/* Hidden file input */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleBgUpload}
-        className="hidden"
-      />
 
       {/* Input */}
       <div className="w-full max-w-lg flex gap-2 mb-6">
